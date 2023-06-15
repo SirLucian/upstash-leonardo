@@ -7,7 +7,7 @@ export default async function handler(
 ) {
   const { body } = req;
   try {
-    const decoded = atob(body.body);
+    const decoded = Buffer.from(body.body, "base64");
     await redis.set(body.sourceMessageId, decoded);
     return res.status(200).send(decoded);
   } catch (error) {

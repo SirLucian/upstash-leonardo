@@ -40,13 +40,13 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Dall-E 2 AI Image Generator</title>
+        <title>Leonardo AI Image Generator</title>
       </Head>
       <div className="antialiased mx-auto px-4 py-20 h-screen bg-gray-100">
         <Toaster />
         <div className="flex flex-col items-center justify-center">
           <h1 className="text-5xl tracking-tighter pb-10 font-bold text-gray-800">
-            Dall-E 2 image generator
+            Leonardo image generator
           </h1>
           <form
             className="flex w-full sm:w-auto flex-col sm:flex-row mb-10"
@@ -55,7 +55,7 @@ export default function Home() {
             <input
               className="shadow-sm text-gray-700 rounded-sm px-3 py-2 mb-4 sm:mb-0 sm:min-w-[600px]"
               type="text"
-              placeholder="Prompt for DALL-E"
+              placeholder="Prompt"
               onChange={(e) => setPrompt(e.target.value)}
             />
             <button
@@ -89,13 +89,15 @@ export default function Home() {
           </form>
           <div className="relative flex w-full items-center justify-center">
             <div className="w-full sm:w-[400px] h-[400px] rounded-md shadow-md relative">
-              <img
-                alt={`Dall-E representation of: ${prompt}`}
+              <Image
+                alt={`Your: ${prompt}`}
                 className={cn("rounded-md shadow-md h-full object-cover", {
                   "opacity-100": canShowImage,
                 })}
                 // src={image}
                 src={`data:image/png;base64,${image}`}
+                width={512}
+                height={512}
               />
             </div>
 

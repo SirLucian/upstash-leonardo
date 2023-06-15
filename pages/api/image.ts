@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 const QSTASH = `https://qstash.upstash.io/v1/publish/`;
 const DALL_E = "https://api.openai.com/v1/images/generations";
+const LEONARDO = "https://cloud.leonardo.ai/api/rest/v1/generations";
 const VERCEL_URL = "https://dalle-2-jade.vercel.app";
 
 export default async function handler(
@@ -9,20 +10,24 @@ export default async function handler(
 ) {
   const { prompt } = req.query;
   try {
-    const response = await fetch(`${QSTASH + DALL_E}`, {
+    const response = await fetch(`${QSTASH + LEONARDO}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${process.env.QSTASH_TOKEN}`,
         // Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-        "upstash-forward-Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+        "upstash-forward-Authorization": `Bearer ${process.env.LEO_API_KEY}`,
         "Content-Type": "application/json",
         "Upstash-Callback": `${VERCEL_URL}/api/callback`,
       },
       body: JSON.stringify({
-        prompt,
-        n: 1,
-        size: "1024x1024",
-        response_format: "b64_json",
+        prompt: prompt,
+        modelId: process.env.MODEL_ID,
+        width: 512,
+        height: 512,
+        promptMagic: true,
+        num_images: 1,
+        public: false,
+        sd_version: "v2",
       }),
     });
     const json = await response.json();
